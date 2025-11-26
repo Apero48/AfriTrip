@@ -8,13 +8,35 @@ interface TravelPayoutsWidgetProps {
     className?: string;
     title?: string;
     description?: string;
+    priority?: boolean;
 }
 
-export function TravelPayoutsWidget({ type, className, title, description }: TravelPayoutsWidgetProps) {
+export function TravelPayoutsWidget({ type, className, title, description, priority = false }: TravelPayoutsWidgetProps) {
     const containerRef = useRef<HTMLDivElement>(null);
+    const [isVisible, setIsVisible] = React.useState(priority);
 
     useEffect(() => {
-        if (!containerRef.current) return;
+        if (priority) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting) {
+                    setIsVisible(true);
+                    observer.disconnect();
+                }
+            },
+            { rootMargin: "200px" }
+        );
+
+        if (containerRef.current) {
+            observer.observe(containerRef.current);
+        }
+
+        return () => observer.disconnect();
+    }, [priority]);
+
+    useEffect(() => {
+        if (!isVisible || !containerRef.current) return;
 
         // Small delay to ensure DOM is ready
         const timer = setTimeout(() => {
@@ -61,7 +83,7 @@ export function TravelPayoutsWidget({ type, className, title, description }: Tra
                 scripts.forEach(s => s.remove());
             }
         };
-    }, [type]);
+    }, [type, isVisible]);
 
     return (
         <Card className={`macos-card w-full overflow-hidden transition-all duration-300 hover:shadow-2xl ${className}`}>
