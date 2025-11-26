@@ -1,15 +1,26 @@
 @import "tailwindcss";
 
+@theme {
+  --color-primary: #0066CC;
+  --color-primary-foreground: #FFFFFF;
+  --color-secondary: #FF8800;
+  --color-secondary-foreground: #FFFFFF;
+  --color-background: #FFFFFF;
+  --color-foreground: #09090b;
+  --color-muted: #f4f4f5;
+  --color-muted-foreground: #71717a;
+  --color-card: #FFFFFF;
+  --color-card-foreground: #09090b;
+  --color-border: #e4e4e7;
+  --color-input: #e4e4e7;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -20,7 +31,56 @@
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Travelpayouts Widget Customization */
+.widget-container {
+  position: relative;
+}
+
+.widget-container iframe {
+  border-radius: 0.5rem;
+  width: 100% !important;
+}
+
+/* Ensure widget buttons are visible and styled */
+.widget-container button,
+.widget-container a[role="button"] {
+  transition: all 0.2s ease-in-out;
+}
+
+.widget-container button:hover,
+.widget-container a[role="button"]:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+/* macOS Glassmorphism Design */
+.macos-card {
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.macos-card:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Dark mode support for glassmorphism */
+@media (prefers-color-scheme: dark) {
+  .macos-card {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
 }
